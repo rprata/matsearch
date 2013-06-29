@@ -1,0 +1,175 @@
+http://www.siteground.com/tutorials/php-mysql/display_table_data.htm
+http://www.w3schools.com/php/php_ajax_database.asp
+http://forum.hostgator.com.br/topic/544-restaurar-banco-de-dados-pelo-phpmyadmin/
+
+	 $(document).ready(function(){
+			 	 $("#send").click(function(){
+					var nome_material = $("#search").val();
+					
+					$.ajax({  
+			 	 		
+			 	 		   url: "scripts/generate_table.php", 
+						   dataType: 'html',
+						   data: {material:nome_material},
+						   type: "POST", 
+						   
+						    beforeSend: function ()   { 
+						    	//$('#carregando').show();
+						    },
+						    success: function(data){
+						    //	$('#carregando').hide();
+								$("#resBusca").html('<b>Resultado da busca</b><br /><br/>'+ data );
+
+						    },
+							error: function(data){
+							//	$('#carregando').html(data);
+							}
+
+								  	
+					        
+					});
+			 	 });
+			 });
+     
+
+
+
+	echo "<table class="bordered">
+		    <thead>
+		    <tr>
+		    	<th>Nome</th>
+		    	<th>Sigla</th>
+		    	<th>Número atômico</th>
+		        <th>Densidade (g/cm³)</th>
+		        <th>Resistência à Tração (MPa)</th>
+		  		<th>Módulo de Elasticidade (GPa)</th>
+		        <th>Resistividade Elétrica (Ω.cm)</th>
+		        <th>Calor Específico (cal/g.°C)</th>
+		        <th>Condutividade Térmica (W/m.K)</th>
+		        <th>Ponto de Fusão (°C)</th>
+		        <th>Coeficiente de reflexão (nm)</th>
+		        <th>No. CAS</th>
+		    </tr>
+		    </thead>
+		    <tbody>";
+
+
+	while ($i < $num) 
+	{
+		$f1 = mysql_result($result,$i,"nome");
+		$f2 = mysql_result($result,$i,"sigla");
+		$f3 = mysql_result($result,$i,"numero_atomico");
+		$f4 = mysql_result($result,$i,"densidade");
+		$f5 = mysql_result($result,$i,"resistencia_tracao");
+		$f6 = mysql_result($result,$i,"modulo_elasticidade");
+		$f7 = mysql_result($result,$i,"resistividade_eletrica");
+		$f8 = mysql_result($result,$i,"calor_especifico");
+		$f9 = mysql_result($result,$i,"condutividade_termica");
+		$f10 = mysql_result($result,$i,"ponto_fusao");
+		$f11 = mysql_result($result,$i,"coeficiente_reflexao");
+		$f12 = mysql_result($result,$i,"cas");
+		echo "<tr>";
+		echo "<td>".$f1."</td>";
+		echo "<td>".$f2."</td>";
+		echo "<td>".$f3."</td>";
+		echo "<td>".$f4."</td>";
+		echo "<td>".$f5."</td>";
+		echo "<td>".$f6."</td>";
+		echo "<td>".$f7."</td>";
+		echo "<td>".$f8."</td>";
+		echo "<td>".$f9."</td>";
+		echo "<td>".$f10."</td>";
+		echo "<td>".$f11."</td>";
+		echo "<td>".$f12."</td>";
+		echo "<tr>";
+		$i = $i + 1;
+	}
+
+	echo "</tbody>
+			</table>";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<table class="bordered">
+		    <thead>
+		    <tr>
+		    	<th>Nome</th>
+		    	<th>Sigla</th>
+		    	<th>Número atômico</th>
+		        <th>Densidade (g/cm³)</th>
+		        <th>Resistência à Tração (MPa)</th>
+		  		<th>Módulo de Elasticidade (GPa)</th>
+		        <th>Resistividade Elétrica (Ω.cm)</th>
+		        <th>Calor Específico (cal/g.°C)</th>
+		        <th>Condutividade Térmica (W/m.K)</th>
+		        <th>Ponto de Fusão (°C)</th>
+		        <th>Coeficiente de reflexão (nm)</th>
+		        <th>No. CAS</th>
+		    </tr>
+		    </thead>
+		    <tbody>
+	    	<?php
+	    	 	$server = "localhost";
+				$user = "root";
+				$passwd = "renanprata";
+				$db = "matsearch";
+
+				$conexao = mysql_connect($server, $user, $passwd);
+				mysql_select_db($db);
+				$nome = "Gold";
+				$sigla = 'Ag';
+
+				$query = "SELECT * FROM materiais"; // WHERE nome = '".$nome."' OR sigla = '".$sigla."'";
+				$result = mysql_query($query);
+				$num = mysql_numrows($result);
+
+				$i = 0;
+				while ($i < $num) 
+				{	
+					$f1 = mysql_result($result,$i,"nome");
+					$f2 = mysql_result($result,$i,"sigla");
+					$f3 = mysql_result($result,$i,"numero_atomico");
+					$f4 = mysql_result($result,$i,"densidade");
+					$f5 = mysql_result($result,$i,"resistencia_tracao");
+					$f6 = mysql_result($result,$i,"modulo_elasticidade");
+					$f7 = mysql_result($result,$i,"resistividade_eletrica");
+					$f8 = mysql_result($result,$i,"calor_especifico");
+					$f9 = mysql_result($result,$i,"condutividade_termica");
+					$f10 = mysql_result($result,$i,"ponto_fusao");
+					$f11 = mysql_result($result,$i,"coeficiente_reflexao");
+					$f12 = mysql_result($result,$i,"cas");
+	    	?>
+	    	<tr>
+				<td><?php echo $f2; ?></td>
+				<td><?php echo $f2; ?></td>
+				<td><?php echo $f3; ?></td>
+				<td><?php echo $f4; ?></td>
+				<td><?php echo $f5; ?></td>
+				<td><?php echo $f6; ?></td>
+				<td><?php echo $f7; ?></td>
+				<td><?php echo $f8; ?></td>
+				<td><?php echo $f9; ?></td>
+				<td><?php echo $f10; ?></td>
+				<td><?php echo $f11; ?></td>
+				<td><?php echo $f12; ?></td>
+			</tr>
+
+			<?php $i = $i + 1; } ?>
+
+			</tbody>
+		</table>

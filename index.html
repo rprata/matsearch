@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html>
+ 
+    <head>
+        <title>MatSearch - Sua pesquisa inteligente por materiais</title>
+        <meta charset="utf-8">
+       	<meta name="viewport" content="width=320" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script src="scripts/jquery-1.8.3.min.js"></script>
+		<script src="scripts/jquery.form.js"></script>
+		<script src="scripts/jquery.validate.min.js"></script>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+ 	       
+        <script type="text/javascript">
+			$(document).ready(function(){
+			 $("#materialForm").submit(function(form){
+			 	form.preventDefault();
+				var nome_material = $('#search').val();
+				$.ajax({  
+			 		url: "scripts/generate_table.php", 
+					dataType: 'html',
+					data: {material:nome_material},
+					type: "GET", 
+					success: function(data){
+						$('#table_response').show();
+						$('#table_response').html(data);
+						$('#response').hide();
+					},
+					error: function(data){
+						$('#table_response').hide();
+						$('#response').show();
+						$('#response').html("Material não encontrado. Tente novamente.");
+						// $("#response").fadeOut(3500);
+					}	  	
+					});
+				});
+			});
+
+			$(document).ready(function(){
+			 $("#materialFilterForm").submit(function(form){
+			 	form.preventDefault();
+			 	var nome_menor_igual = $('#menor_igual').val();
+			 	var nome_maior_igual = $('#maior_igual').val();
+			 	var nome_field = $("input:radio[name='field']:checked").val();
+				$.ajax({  			 		
+			 		url: "scripts/generate_filter_table.php", 
+					dataType: 'html',
+					data: {menor_igual:nome_menor_igual, maior_igual:nome_maior_igual,field:nome_field},
+					type: "GET", 
+					success: function(data){
+						$('#table_response').show();
+						$('#table_response').html(data);
+						$('#response').hide();
+						window.location = $("#close").attr("href");
+						$('#search').reset();
+					},
+					error: function(data){
+						$('#table_response').hide();
+						$('#response').show();
+						window.location = $("#close").attr("href");
+						$('#response').html("Material não encontrado. Tente novamente.");
+						// $("#response").fadeOut(3500);
+						$('#search').reset();
+
+					}	  	
+					});
+				});
+			});
+
+			$(document).ready(function() {
+			    var elements = document.getElementsByTagName("INPUT");
+			    for (var i = 0; i < elements.length; i++) {
+			        elements[i].oninvalid = function(e) {
+			            e.target.setCustomValidity("");
+			            if (!e.target.validity.valid) {
+			                e.target.setCustomValidity("Digite algum dado válido.");
+			            }
+			        };
+			        elements[i].oninput = function(e) {
+			            e.target.setCustomValidity("");
+			        };
+			    }
+			});
+		</script>
+
+    </head>
+     
+	<body>
+	
+		<h1>MatSearch</h1>
+		<div  align="center">
+			<img src="images/title.png" width="300" height="150">
+		</div>
+		<h2>Sua pesquisa inteligente por materiais</h2>
+		<form class="form-wrapper" method="get" id="materialForm" action="scripts/generate_table.php">
+        	<input type="text" value="" id="search" placeholder="Digite o tipo de material" required />
+	        <input type="submit" value="buscar" id="submit" />
+	        <a href="#openModal" style="font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 10pt;">busca personalizada</a>
+		</form>
+
+		<div id="openModal" class="modalDialog">
+			<div>
+				<a href="#close" id="close" title="Close" class="close">X</a>
+				<h2>Busca Personalizada</h2>
+				<form method="get" id="materialFilterForm" action="scripts/generate_filter_table.php">
+					<input type="radio" name="field" id="field" value="densidade" checked>Densidade
+					<input type="radio" name="field" id="field" value="resistividade_eletrica">Resistividade Elétrica
+					<input type="radio" name="field" id="field" value="modulo_elasticidade">Módulo de Elasticidade
+					<br>
+					<input type="radio" name="field" id="field" value="resistencia_tracao">Resistência à tração
+					<input type="radio" name="field" id="field" value="calor_especifico">Calor Específico
+					<input type="radio" name="field" id="field" value="condutividade_termica">Condutividade Térmica
+					<br>
+					<br>
+					<input type="text" value="" size="17" id="menor_igual" placeholder="Menor e igual que" />
+					e
+					<input type="text" value="" size="17" id="maior_igual" placeholder="Maior e igual que" />
+					<input type="submit" value="Buscar" id="submit_filter" />
+					<br>
+					<br>
+				</form>
+			</div>
+		</div>
+
+		<table class="bordered" id="table_response" hidden>
+		</table>
+		<div  align="center" style="font-family: 'Lucida Grande', Helvetica, Arial, sans-serif; font-size: 16pt; color: #000;" id="response">
+		</div>	
+	</body>
+</html>
