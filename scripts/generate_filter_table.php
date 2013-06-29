@@ -5,7 +5,7 @@
 
 	$server = "localhost";
 	$user = "notor532_mat";
-	$passwd = "renanprata";
+	$passwd = "123";
 	$db = "notor532_matsearch";
 
 	$conexao = mysql_connect($server, $user, $passwd);
