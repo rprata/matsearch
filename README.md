@@ -3,8 +3,6 @@ MatSearch
 
 IEEE/UERJ Computer Hacker Team
 -----------
-![IEEE/UERJ Computer Hacker Team](/imgs/logo\ IEEE.png)
-
 
 Este projeto é desenvolvido pelo Ramo IEEE UERJ. A ferramenta está disponível no site oficial [MatSearch](http://matsearch.tk)
 
